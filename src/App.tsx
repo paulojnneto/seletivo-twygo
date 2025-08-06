@@ -1,14 +1,7 @@
-import './App.css'
-import { Button, HStack } from '@chakra-ui/react'
+import { CourseListView } from '@/views/CourseListView'
 
 function App() {
-
-  return (
-    <HStack>
-      <Button variant="outline" colorPalette='teal'>hello</Button>
-      <Button variant="outline" colorPalette='teal'>world</Button>
-    </HStack>
-  )
+  return <CourseListView />
 }
 
 export default App
