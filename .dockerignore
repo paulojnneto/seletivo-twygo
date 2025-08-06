@@ -1,5 +1,8 @@
+# Ignore only local dev files — keep what's needed to build the app
 node_modules
 dist
-.git
-.vscode
 *.log
+.vscode
+.idea
+*.tsbuildinfo
+coverage

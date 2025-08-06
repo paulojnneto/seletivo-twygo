@@ -12,3 +12,8 @@ export interface Course {
   endDate: string // ISO format
   videos: Video[]
 }
+
+export interface Props {
+  onSave: (course: Course) => void
+  initialData?: Course
+}

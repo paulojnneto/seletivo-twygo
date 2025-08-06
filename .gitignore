@@ -7,18 +7,31 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
 .DS_Store
-*.suo
+*.suoa
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+# Node modules and build output
+node_modules/
+dist/
+*.log
+
+# Environment files (should not be committed)
+.env.*.local
+
+# TypeScript
+*.tsbuildinfo
+
+# Prisma client generated locally (optional to ignore)
+.generated/
+
+# IDE/editor folders
+.vscode/
+.idea/
