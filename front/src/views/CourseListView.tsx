@@ -1,29 +1,31 @@
-import { VStack, Heading, Text, Box, Button } from '@chakra-ui/react'
-import type { Course } from '@/types'
+import { useCourses } from '@/hooks/useCourses'
+import { useNavigate } from 'react-router-dom'
+import { Box, Button, Spinner, Text } from '@chakra-ui/react'
+import { useEffect } from 'react'
 
-interface Props {
-  courses: Course[]
-  onEdit?: (course: Course) => void
-}
+export default function CourseListView() {
+  const { courses, loading, fetchCourses } = useCourses()
+  const navigate = useNavigate()
 
-export function CourseListView({ courses, onEdit }: Props) {
-  const now = new Date()
+  useEffect(() => {
+    fetchCourses()
+  }, [fetchCourses])
 
-  const filtered = courses.filter(course => new Date(course.endDate) > now)
+  if (loading) return <Spinner />
 
   return (
-    <VStack align="stretch">
-      {filtered.map(course => (
-        <Box key={course.id} p={4} shadow="md" borderWidth="1px" borderRadius="md">
-          <Heading size="md">{course.title}</Heading>
-          <Text>{course.description}</Text>
-          {onEdit && (
-            <Button size="sm" mt={2} onClick={() => onEdit(course)}>
-              Edit
-            </Button>
-          )}
+    <Box>
+      {courses.map(course => (
+        <Box key={course.id}>
+          <Text>{course.title}</Text>
+          <Button colorPalette="teal" onClick={() => navigate(`/courses/${course.id}/edit`)}>
+            Edit
+          </Button>
         </Box>
       ))}
-    </VStack>
+      <Button colorPalette="red" onClick={() => navigate(`/courses/new`)}>
+        New
+      </Button>
+    </Box>
   )
 }

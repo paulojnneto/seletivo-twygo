@@ -68,6 +68,13 @@ export const updateCourse = async (req: Request, res: Response) => {
     if (!req.params.id) {
       return res.status(400).json({ message: 'Course ID is required' });
     }
+
+    //When updating the course, we need to remove the courseId from each video to avoid foreign key issues
+    const videosWithoutCourseId = (videos || []).map((item: any) => {
+      const { courseId, ...video } = item
+      return video
+    })
+
     const updated = await prisma.course.update({
       where: { id: req.params.id },
       data: {
@@ -76,7 +83,7 @@ export const updateCourse = async (req: Request, res: Response) => {
         endDate: new Date(endDate),
         videos: {
           deleteMany: {}, // remove old videos
-          create: videos || []
+          create: videosWithoutCourseId || []
         }
       },
       include: { videos: true }

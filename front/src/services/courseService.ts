@@ -8,7 +8,7 @@ export const getCourses = async (): Promise<Course[]> => {
   return res.json()
 }
 
-export const createCourse = async (course: Omit<Course, 'id'>): Promise<Course> => {
+export const createCourse = async (course: Course): Promise<Course> => {
   const res = await fetch(API_BASE, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

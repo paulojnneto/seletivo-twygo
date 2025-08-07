@@ -1,7 +1,5 @@
-import { CourseDashboard } from '@/views/CourseDashboard'
+import AppRoutes from '@/routes'
 
-function App() {
-  return <CourseDashboard />
+export default function App() {
+  return <AppRoutes />
 }
-
-export default App

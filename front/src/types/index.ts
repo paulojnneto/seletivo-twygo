@@ -6,7 +6,7 @@ export interface Video {
 }
 
 export interface Course {
-  id: string
+  id?: string
   title: string
   description: string
   endDate: string // ISO format
