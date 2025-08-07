@@ -2,15 +2,20 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+# Copy package files and install dependencies
 COPY package*.json ./
-
 RUN npm install
 
-COPY . .
+# Copy remaining files
+COPY prisma ./prisma
+COPY tsconfig.json ./
+COPY src ./src
 
+# Generate Prisma client
 RUN npx prisma generate
 
-EXPOSE 4000
+# Build the TypeScript project
+RUN npm run build
 
-CMD npx prisma migrate deploy && npm run start
-
+# Start application
+CMD ["npm", "run", "start"]
