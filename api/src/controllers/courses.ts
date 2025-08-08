@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import type { Request, Response } from 'express'
 import { getVideoWithSize } from '../utils/videoUtils'
+import { error } from 'console'
 
 const prisma = new PrismaClient()
 
@@ -65,7 +66,6 @@ export const getCourseById = async (req: Request, res: Response) => {
 // POST new course
 export const createCourse = async (req: Request, res: Response) => {
   try {
-    console.log('i got here');
 
     if (!req.body.title || !req.body.description || !req.body.endDate) {
       return res.status(400).json({ message: 'Title, description, and end date are required' });
@@ -78,7 +78,9 @@ export const createCourse = async (req: Request, res: Response) => {
         description,
         endDate: new Date(endDate),
         videos: {
-          create: videos.map((path: string) => ({ path }))
+          create: videos.map((video: { path: string }) => ({
+            path: video.path.replace(/^.*[\\/]/, '')
+          }))
         }
       },
 
@@ -87,8 +89,9 @@ export const createCourse = async (req: Request, res: Response) => {
     console.log('Creating course with data:', { title, description, endDate, videos });
 
     res.status(201).json(course)
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to create course' })
+  } catch (err: any) {
+    console.error('Create Course Error:', err)
+    res.status(500).json({ error: 'Failed to create course', details: err.message })
   }
 }
 
@@ -100,12 +103,6 @@ export const updateCourse = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'Course ID is required' });
     }
 
-    //When updating the course, we need to remove the courseId from each video to avoid foreign key issues
-    const videosWithoutCourseId = (videos || []).map((item: any) => {
-      const { courseId, ...video } = item
-      return video
-    })
-
     const updated = await prisma.course.update({
       where: { id: req.params.id },
       data: {
@@ -113,7 +110,10 @@ export const updateCourse = async (req: Request, res: Response) => {
         description,
         endDate: new Date(endDate),
         videos: {
-          create: videos.map((path: string) => ({ path }))
+          deleteMany: {},
+          create: videos.map((video: { path: string }) => ({
+            path: video.path.replace(/^.*[\\/]/, '')
+          }))
         }
       },
       include: { videos: true }
@@ -128,14 +128,23 @@ export const updateCourse = async (req: Request, res: Response) => {
 // DELETE course
 export const deleteCourse = async (req: Request, res: Response) => {
   try {
-    if (!req.params.id) {
+    const courseId = req.params.id
+    if (!courseId) {
       return res.status(400).json({ message: 'Course ID is required' });
     }
-    await prisma.course.delete({
-      where: { id: req.params.id }
+
+    await prisma.video.deleteMany({
+      where: { courseId }
     })
+
+    await prisma.course.delete({
+      where: { id: courseId }
+    })
+
     res.status(204).send()
   } catch (err) {
-    res.status(404).json({ error: 'Course not found' })
+    console.error(err)
+    res.status(500).json({ error: 'Failed to delete course' })
   }
 }
+

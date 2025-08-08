@@ -25,5 +25,5 @@ model Video {
   id        String   @id @default(uuid())
   path      String 
   courseId  String
-  course    Course   @relation(fields: [courseId], references: [id])
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
