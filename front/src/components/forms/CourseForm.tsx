@@ -42,7 +42,12 @@ export default function CourseForm({
       </FormControl>
 
       <Flex justify="flex-end">
-        <Flex justify="space-between" w="100%" gap={4}>
+        <Flex
+          direction={{ base: 'column', sm: 'row' }}
+          gap={4}
+          mt={6}
+          justify="space-between"
+        >
           <Button {...cancelButtonStyle} onClick={onCancel}>Cancel</Button>
           <Button {...saveButtonStyle} onClick={onSubmit} disabled={!isFormValid}>Save</Button>
         </Flex>

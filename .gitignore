@@ -29,9 +29,6 @@ dist/
 # TypeScript
 *.tsbuildinfo
 
-# Prisma client generated locally (optional to ignore)
-.generated/
-
 # IDE/editor folders
 .vscode/
 .idea/

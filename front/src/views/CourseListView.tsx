@@ -45,18 +45,25 @@ export default function CourseListView() {
 
   return (
     <Box w="100vw" h="100vh">
-      <Flex minH="100vh" w="100%" align="center" justify="center" bg="purple.200" py={10}>
+      <Flex
+        minH="100vh"
+        w="100%"
+        align="center"
+        justify="center"
+        bg="purple.200"
+        py={{ base: 6, md: 10 }}
+      >
         <Box
-          w="100%"
-          maxW="1000px"
-          p={8}
+          w="full"
+          maxW={{ base: '90%', md: '600px' }}
+          p={{ base: 4, md: 8 }}
           bg="white"
           borderRadius="md"
           boxShadow="md"
           border="2px solid"
           borderColor="gray.700"
         >
-          <Text fontSize="4xl" fontWeight="extrabold" color="purple" mb={8}>
+          <Text fontSize={{ base: '3xl', sm: '4xl' }} fontWeight="extrabold" color="purple" mb={6}>
             Courses
           </Text>
 
