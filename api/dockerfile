@@ -20,3 +20,8 @@ RUN npm run build
 
 # Start application
 CMD ["npm", "run", "start"]
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
