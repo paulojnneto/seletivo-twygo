@@ -34,15 +34,15 @@ export function CourseTable({ courses, onPlayVideos, onEdit, onDelete }: CourseT
           <Table.Body>
             {courses.map((course) => (
               <Table.Row key={course.id}>
-                <Table.Cell bg="yellow.100" color="black" fontWeight="semibold">{course.title}</Table.Cell>
-                <Table.Cell bg="yellow.100" color="black">{course.endDate.split('T')[0]}</Table.Cell>
-                <Table.Cell bg="yellow.100" color="black">{course.description}</Table.Cell>
-                <Table.Cell bg="yellow.100" color="black">
+                <Table.Cell {...tableCellStyle} fontWeight="semibold">{course.title}</Table.Cell>
+                <Table.Cell {...tableCellStyle}>{course.endDate.split('T')[0]}</Table.Cell>
+                <Table.Cell {...tableCellStyle}>{course.description}</Table.Cell>
+                <Table.Cell {...tableCellStyle}>
                   <Button size="xs" variant="outline" {...buttonStyle} onClick={() => onPlayVideos(course.id ?? '')}>
                     <Icon as={FaPlay} mr={1} /> Videos
                   </Button>
                 </Table.Cell>
-                <Table.Cell bg="yellow.100" color="black">
+                <Table.Cell {...tableCellStyle}>
                   <Flex gap={2}>
                     <Button size="xs" variant="outline" {...buttonStyle} onClick={() => onEdit(course.id ?? '')}>
                       Edit
@@ -61,6 +61,11 @@ export function CourseTable({ courses, onPlayVideos, onEdit, onDelete }: CourseT
   )
 }
 
+const tableCellStyle = {
+  bg: "yellow.100",
+  color: "black"
+}
+
 const buttonStyle = {
   bg: "white",
   color: "purple",
@@ -72,11 +77,8 @@ const buttonStyle = {
 }
 
 const buttonRedStyle = {
-  bg: "white",
+  ...buttonStyle,
   color: "red",
-  border: "2px solid",
   borderColor: "red",
   _hover: { borderColor: "red", shadow: "sm" },
-  fontWeight: "bold",
-  px: 3
 }
