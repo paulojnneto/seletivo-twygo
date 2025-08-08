@@ -1,16 +1,9 @@
-export interface Video {
-  id: string
-  title: string
-  sizeMB: number
-  url: string
-}
-
 export interface Course {
   id?: string
   title: string
   description: string
   endDate: string // ISO format
-  videos: unknown[]
+  videos: Video[]
 }
 
 export interface Props {
@@ -20,6 +13,7 @@ export interface Props {
 
 export type CourseFormProps = {
   form: Course
+  videosValue?: string
   onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
   onVideosChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   onSubmit: () => void
@@ -39,4 +33,9 @@ export interface CourseVideosModalProps {
   isOpen: boolean
   onClose: () => void
   videos: string[]
+}
+
+export type Video = {
+  path: string
+  size: number
 }

@@ -10,6 +10,7 @@ RUN npm install
 COPY prisma ./prisma
 COPY tsconfig.json ./
 COPY src ./src
+COPY videos ./dist/videos
 
 # Generate Prisma client
 RUN npx prisma generate

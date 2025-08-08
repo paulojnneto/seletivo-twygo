@@ -36,12 +36,7 @@ export function CourseVideosModal({ isOpen, onClose, videos }: CourseVideosModal
             {videos.map((url, idx) => (
               <Box key={idx} minW="320px" flex="0 0 auto">
                 <AspectRatio ratio={16 / 9} w="full">
-                  <iframe
-                    src={url.replace("watch?v=", "embed/")}
-                    title={`Video ${idx + 1}`}
-                    allowFullScreen
-                    style={{ borderRadius: '10px' }}
-                  />
+                  <video key={url} src={`http://localhost:4000${url}`} controls width="100%" />
                 </AspectRatio>
               </Box>
             ))}

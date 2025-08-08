@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import type { Request, Response } from 'express'
+import { getVideoWithSize } from '../utils/videoUtils'
 
 const prisma = new PrismaClient()
 
@@ -9,7 +10,20 @@ export const getAllCourses = async (req: Request, res: Response) => {
     const courses = await prisma.course.findMany({
       include: { videos: true }
     })
-    res.json(courses)
+
+    const coursesWithVideoSizes = await Promise.all(
+      courses.map(async (course: { videos: any[] }) => {
+        const videosWithSize = await Promise.all(
+          course.videos.map((v: { path: string }) => getVideoWithSize(v.path))
+        )
+        return {
+          ...course,
+          videos: videosWithSize
+        }
+      })
+    )
+
+    res.json(coursesWithVideoSizes)
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch courses' })
   }
@@ -21,15 +35,28 @@ export const getCourseById = async (req: Request, res: Response) => {
     if (!req.params.id) {
       return res.status(400).json({ message: 'Course ID is required' });
     }
+
     const course = await prisma.course.findUnique({
       where: { id: req.params.id },
       include: { videos: true }
     })
+
     if (!req.params.id) {
       return res.status(400).json({ message: 'Course ID is required' });
     }
     if (!course) return res.status(404).json({ error: 'Course not found' })
-    res.json(course)
+
+    const courseWithVideoSizes = await new Promise(async () => {
+      const videosWithSize = await Promise.all(
+        course.videos.map((v: { path: string }) => getVideoWithSize(v.path))
+      )
+      return {
+        ...course,
+        videos: videosWithSize
+      }
+    })
+
+    res.json(courseWithVideoSizes)
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch course' })
   }

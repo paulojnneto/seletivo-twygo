@@ -15,7 +15,7 @@ export default function CourseListView() {
   const navigate = useNavigate()
   const { courses, loading, fetchCourses } = useCourses()
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [, setSelectedCourseId] = useState<string | null>(null)
+  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null)
 
   useEffect(() => {
     fetchCourses()
@@ -35,15 +35,11 @@ export default function CourseListView() {
     setSelectedCourseId(null)
   }
 
-  // const selectedCourse = courses.find(c => c.id === selectedCourseId)
-  //  const videoUrls = selectedCourse?.videos.length
-  //   ? selectedCourse.videos
-  //   : [
-  //       'https://www.youtube.com/watch?v=o8nVBW45gKY',
-  //       'https://www.youtube.com/watch?v=o8nVBW45gKY',
-  //       'https://www.youtube.com/watch?v=o8nVBW45gKY',
-  //       'https://www.youtube.com/watch?v=o8nVBW45gKY',
-  //     ]
+  const selectedCourse = courses.find(c => c.id === selectedCourseId)
+
+  const videoUrls = selectedCourse?.videos?.length
+    ? selectedCourse.videos.map((v) => v.path)
+    : []
 
   if (loading) return <Spinner size="xl" />
 
@@ -92,7 +88,7 @@ export default function CourseListView() {
       <CourseVideosModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
-        videos={["https://www.youtube.com/watch?v=mQF5Tknsx5U", "https://www.youtube.com/watch?v=mQF5Tknsx5U", "https://www.youtube.com/watch?v=mQF5Tknsx5U", "https://www.youtube.com/watch?v=mQF5Tknsx5U", "https://www.youtube.com/watch?v=mQF5Tknsx5U"]}
+        videos={videoUrls}
       />
     </Box>
   )

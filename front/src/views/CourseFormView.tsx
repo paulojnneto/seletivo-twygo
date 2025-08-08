@@ -10,6 +10,7 @@ import {
 import { useToast } from "@chakra-ui/toast"
 import CourseForm from '@/components/forms/CourseForm'
 import moment from 'moment'
+import { parseVideoPaths } from '@/utils'
 
 export default function CourseFormView() {
   const { id } = useParams()
@@ -50,7 +51,9 @@ export default function CourseFormView() {
   }
 
   const handleVideosChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const videos = e.target.value.split(',').map(v => v.trim())
+    const videoPaths = e.target.value;
+    const videos = parseVideoPaths(videoPaths);
+
     setForm(prev => ({ ...prev, videos }))
   }
 
@@ -70,6 +73,8 @@ export default function CourseFormView() {
 
   if (id && !editingCourse) return <Spinner size="xl" />
 
+  const videosValue = form.videos.map(v => v.path).join(', ')
+
   return (
     <Box w="100vw" h="100vh">
       <Flex minH="100vh" w="100%" align="center" justify="center" bg="purple.200" py={10}>
@@ -85,6 +90,7 @@ export default function CourseFormView() {
         >
           <CourseForm
             form={form}
+            videosValue={videosValue}
             onChange={handleChange}
             onVideosChange={handleVideosChange}
             onSubmit={handleSubmit}

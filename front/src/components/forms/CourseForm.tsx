@@ -5,6 +5,7 @@ import { Button, Flex, Input, Text, Textarea } from "@chakra-ui/react"
 
 export default function CourseForm({
   form,
+  videosValue,
   onChange,
   onVideosChange,
   onSubmit,
@@ -37,7 +38,7 @@ export default function CourseForm({
 
       <FormControl mb={6}>
         <FormLabel fontWeight="bold" color="purple">Video URLs (comma-separated)</FormLabel>
-        <Input name="videos" value={form.videos.join(', ')} onChange={onVideosChange} {...inputStyle} />
+        <Input name="videos" value={videosValue} onChange={onVideosChange} {...inputStyle} />
       </FormControl>
 
       <Flex justify="flex-end">
