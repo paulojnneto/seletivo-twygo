@@ -1,0 +1,65 @@
+import type { CourseVideosModalProps } from '@/types'
+import {
+  Box,
+  Text,
+  Button,
+  Flex,
+  AspectRatio,
+  Portal
+} from '@chakra-ui/react'
+
+export function CourseVideosModal({ isOpen, onClose, videos }: CourseVideosModalProps) {
+  if (!isOpen) return null
+
+  return (
+    <Portal>
+      <Box
+        position="fixed"
+        top={0}
+        left={0}
+        w="100vw"
+        h="100vh"
+        bg="rgba(0,0,0,0.8)"
+        zIndex={9999}
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        p={8}
+      >
+        <Box bg="white" w="full" maxW="960px" maxH="90vh" overflowY="auto" borderRadius="lg" p={6}>
+          <Flex justify="space-between" align="center" mb={4}>
+            <Text fontSize="2xl" fontWeight="extrabold" color="purple">Course Videos</Text>
+            <Button onClick={onClose} {...buttonStyle}>✕</Button>
+          </Flex>
+
+          <Flex overflowX="auto" gap={4} pb={2}>
+            {videos.map((url, idx) => (
+              <Box key={idx} minW="320px" flex="0 0 auto">
+                <AspectRatio ratio={16 / 9} w="full">
+                  <iframe
+                    src={url.replace("watch?v=", "embed/")}
+                    title={`Video ${idx + 1}`}
+                    allowFullScreen
+                    style={{ borderRadius: '10px' }}
+                  />
+                </AspectRatio>
+              </Box>
+            ))}
+          </Flex>
+        </Box>
+      </Box>
+    </Portal>
+  )
+}
+
+const buttonStyle = {
+  fontWeight: 'bold',
+  bg: 'white',
+  color: 'purple',
+  border: '2px solid',
+  borderColor: 'purple',
+  borderRadius: '30px',
+  _hover: { borderColor: 'purple', shadow: 'sm' },
+  px: 4,
+  py: 1
+}
