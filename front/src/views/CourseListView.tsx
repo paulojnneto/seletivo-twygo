@@ -15,7 +15,7 @@ export default function CourseListView() {
   const navigate = useNavigate()
   const { courses, loading, fetchCourses } = useCourses()
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null)
+  const [, setSelectedCourseId] = useState<string | null>(null)
 
   useEffect(() => {
     fetchCourses()

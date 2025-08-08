@@ -23,9 +23,7 @@ model Course {
 
 model Video {
   id        String   @id @default(uuid())
-  title     String
-  sizeMB    Float
-  url       String
+  path      String 
   courseId  String
   course    Course   @relation(fields: [courseId], references: [id])
 }

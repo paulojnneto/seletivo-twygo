@@ -36,12 +36,12 @@ export function CourseTable({ courses, onPlayVideos, onEdit }: CourseTableProps)
               <Table.Cell bg="yellow.100" color="black">{course.endDate.split('T')[0]}</Table.Cell>
               <Table.Cell bg="yellow.100" color="black">{course.description}</Table.Cell>
               <Table.Cell bg="yellow.100" color="black">
-                <Button size="xs" {...buttonStyle} onClick={() => onPlayVideos(course.id)}>
+                <Button size="xs" variant="outline" {...buttonStyle} onClick={() => onPlayVideos(course.id ?? '')}>
                   <Icon as={FaPlay} mr={1} /> Videos
                 </Button>
               </Table.Cell>
               <Table.Cell bg="yellow.100" color="black">
-                <Button size="xs" {...buttonStyle} onClick={() => onEdit(course.id)}>
+                <Button size="xs" variant="outline" {...buttonStyle} onClick={() => onEdit(course.id ?? '')}>
                   Edit
                 </Button>
               </Table.Cell>
@@ -59,7 +59,6 @@ const buttonStyle = {
   border: "2px solid",
   borderColor: "purple",
   _hover: { borderColor: "purple", shadow: "sm" },
-  variant: "outline",
   fontWeight: "bold",
   px: 3
 }

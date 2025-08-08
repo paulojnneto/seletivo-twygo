@@ -10,7 +10,7 @@ export interface Course {
   title: string
   description: string
   endDate: string // ISO format
-  videos: Video[]
+  videos: unknown[]
 }
 
 export interface Props {

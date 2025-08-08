@@ -38,6 +38,8 @@ export const getCourseById = async (req: Request, res: Response) => {
 // POST new course
 export const createCourse = async (req: Request, res: Response) => {
   try {
+    console.log('i got here');
+
     if (!req.body.title || !req.body.description || !req.body.endDate) {
       return res.status(400).json({ message: 'Title, description, and end date are required' });
     }
@@ -49,11 +51,13 @@ export const createCourse = async (req: Request, res: Response) => {
         description,
         endDate: new Date(endDate),
         videos: {
-          create: videos || []
+          create: videos.map((path: string) => ({ path }))
         }
       },
+
       include: { videos: true }
     })
+    console.log('Creating course with data:', { title, description, endDate, videos });
 
     res.status(201).json(course)
   } catch (err) {
@@ -82,8 +86,7 @@ export const updateCourse = async (req: Request, res: Response) => {
         description,
         endDate: new Date(endDate),
         videos: {
-          deleteMany: {}, // remove old videos
-          create: videosWithoutCourseId || []
+          create: videos.map((path: string) => ({ path }))
         }
       },
       include: { videos: true }
