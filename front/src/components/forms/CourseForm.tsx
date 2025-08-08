@@ -21,24 +21,24 @@ export default function CourseForm({
       </Text>
 
       <FormControl mb={4}>
-        <FormLabel fontWeight="bold" color="purple">Title</FormLabel>
-        <Input name="title" value={form.title} onChange={onChange} {...inputStyle} />
+        <FormLabel htmlFor="title" fontWeight="bold" color="purple">Title</FormLabel>
+        <Input id="title" name="title" value={form.title} onChange={onChange} {...inputStyle} />
       </FormControl>
 
       <FormControl mb={4} isInvalid={!!endDateError}>
-        <FormLabel fontWeight="bold" color="purple">End Date</FormLabel>
-        <Input name="endDate" type="date" value={form.endDate.split('T')[0]} onChange={onChange} {...inputStyle} />
+        <FormLabel htmlFor="endDate" fontWeight="bold" color="purple">End Date</FormLabel>
+        <Input id="endDate" name="endDate" type="date" value={form.endDate.split('T')[0]} onChange={onChange} {...inputStyle} />
         {endDateError && <FormErrorMessage color="red">{endDateError}</FormErrorMessage>}
       </FormControl>
 
       <FormControl mb={4}>
-        <FormLabel fontWeight="bold" color="purple">Description</FormLabel>
-        <Textarea name="description" value={form.description} onChange={onChange} {...inputStyle} />
+        <FormLabel htmlFor="description" fontWeight="bold" color="purple">Description</FormLabel>
+        <Textarea id="description" name="description" value={form.description} onChange={onChange} {...inputStyle} />
       </FormControl>
 
       <FormControl mb={6}>
-        <FormLabel fontWeight="bold" color="purple">Video URLs (comma-separated)</FormLabel>
-        <Input name="videos" value={videosValue} onChange={onVideosChange} {...inputStyle} />
+        <FormLabel htmlFor="videos" fontWeight="bold" color="purple">Video URLs (comma-separated)</FormLabel>
+        <Input id="videos" name="videos" value={videosValue} onChange={onVideosChange} {...inputStyle} />
       </FormControl>
 
       <Flex justify="flex-end">

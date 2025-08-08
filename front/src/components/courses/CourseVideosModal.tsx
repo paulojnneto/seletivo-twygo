@@ -47,7 +47,7 @@ export function CourseVideosModal({ isOpen, onClose, videos }: CourseVideosModal
             ))}
           </Flex>
           <Flex mt={4} justify="space-between" align="center">
-            <Text fontSize="sm" color="gray.600">
+            <Text fontSize="sm" color="gray.600" data-testid="video-size">
               Total size: {getTotalSizeInMB(videos)} MB
             </Text>
           </Flex>        </Box>
