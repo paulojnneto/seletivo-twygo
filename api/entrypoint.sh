@@ -1,7 +1,7 @@
 #!/bin/sh
 
-echo "Running migrations..."
+echo "Running Prisma migrations..."
 npx prisma migrate deploy
 
-echo "Starting server..."
-exec node dist/index.js
+echo "Starting the app..."
+exec "$@"

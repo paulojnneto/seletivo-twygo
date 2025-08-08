@@ -11,17 +11,17 @@ COPY prisma ./prisma
 COPY tsconfig.json ./
 COPY src ./src
 COPY videos ./dist/videos
-
-# Generate Prisma client
-RUN npx prisma generate
-
-# Build the TypeScript project
-RUN npm run build
-
-# Start application
-CMD ["npm", "run", "start"]
-
 COPY entrypoint.sh /entrypoint.sh
+
+# Ensure script is executable
 RUN chmod +x /entrypoint.sh
 
+# Generate Prisma client and build
+RUN npx prisma generate
+RUN npm run build
+
+# Set entrypoint script
 ENTRYPOINT ["/entrypoint.sh"]
+
+# Command to start the app
+CMD ["npm", "run", "start"]
