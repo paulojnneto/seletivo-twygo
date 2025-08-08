@@ -2,26 +2,22 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy remaining files
 COPY prisma ./prisma
 COPY tsconfig.json ./
 COPY src ./src
-COPY videos ./dist/videos
 COPY entrypoint.sh /entrypoint.sh
 
-# Ensure script is executable
 RUN chmod +x /entrypoint.sh
 
-# Generate Prisma client and build
 RUN npx prisma generate
+
 RUN npm run build
 
-# Set entrypoint script
+COPY videos ./dist/videos
+
 ENTRYPOINT ["/entrypoint.sh"]
 
-# Command to start the app
 CMD ["npm", "run", "start"]
