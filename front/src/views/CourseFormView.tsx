@@ -44,6 +44,7 @@ export default function CourseFormView() {
     return moment(dateStr, 'YYYY-MM-DD', true).isValid()
   }
 
+
   const isFormValid = form.title.trim() !== '' &&
     form.description.trim() !== '' &&
     isValidDate(form.endDate)
@@ -54,8 +55,12 @@ export default function CourseFormView() {
     setForm(prev => ({ ...prev, [name]: value }))
 
     if (name === 'endDate') {
+      console.log({ value });
+
       const valid = isValidDate(value)
-      setEndDateError(valid ? '' : 'Invalid date format. Please use YYYY-MM-DD.')
+      console.log({ valid });
+
+      setEndDateError(valid ? '' : 'Invalid date.')
     }
   }
 
@@ -117,7 +122,7 @@ export default function CourseFormView() {
               borderColor="purple"
               _focus={{ borderColor: "purple.700", boxShadow: "sm" }}
             />
-            <FormErrorMessage color="red">Invalid date</FormErrorMessage>
+            {endDateError && <FormErrorMessage color="red">{endDateError}</FormErrorMessage>}
           </FormControl>
 
           <FormControl mb={4}>
@@ -160,7 +165,7 @@ export default function CourseFormView() {
                 _hover={{ borderColor: "red", shadow: "sm" }}
                 px={6}
                 py={2}
-                onClick={handleSubmit}
+                onClick={() => navigate('/courses')}
               >
                 Cancel
               </Button>

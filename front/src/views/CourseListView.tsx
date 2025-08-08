@@ -8,17 +8,30 @@ import {
   Text,
   Icon,
   Flex,
+  useDisclosure,
+  AspectRatio,
+  Portal
 } from '@chakra-ui/react'
+
 import { FaPlay } from 'react-icons/fa'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+
 
 export default function CourseListView() {
-  const { courses, loading, fetchCourses } = useCourses()
   const navigate = useNavigate()
+  const { courses, loading, fetchCourses } = useCourses()
+  const { open, onOpen } = useDisclosure()
+  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null)
 
   useEffect(() => {
     fetchCourses()
   }, [fetchCourses])
+
+  const handleOpenModal = (courseId: string) => {
+    setSelectedCourseId(courseId)
+    onOpen()
+  }
+
 
   if (loading) return <Spinner size="xl" />
 
@@ -76,7 +89,7 @@ export default function CourseListView() {
                         variant="outline"
                         fontWeight="bold"
                         px={3}
-                        onClick={() => navigate(`/courses/${course.id}/videos`)}
+                        onClick={() => course.id && handleOpenModal(course.id)}
                       >
                         <Icon as={FaPlay} mr={1} /> Videos
                       </Button>
@@ -121,6 +134,71 @@ export default function CourseListView() {
           </Flex>
         </Box>
       </Flex>
+
+      {/* Modal for videos */}
+      {selectedCourseId && open && (
+        <Portal>
+          <Box
+            position="fixed"
+            top={0}
+            left={0}
+            w="100vw"
+            h="100vh"
+            bg="rgba(0,0,0,0.8)"
+            zIndex={9999}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            p={8}
+          >
+            <Box
+              bg="white"
+              w="full"
+              maxW="960px"
+              maxH="90vh"
+              overflowY="auto"
+              borderRadius="lg"
+              p={6}
+              boxShadow="2xl"
+              position="relative"
+            >
+              <Flex justify="space-between" align="center" mb={4}>
+                <Text fontSize="2xl" fontWeight="extrabold" color="purple">Course Videos</Text>
+                <Button
+                  variant="outline"
+                  border={"2px solid"}
+                  _hover={{ borderColor: "purple", shadow: "sm" }}
+                  color="purple"
+                  bg="white"
+                  fontSize="lg"
+                  fontWeight="bold"
+                  onClick={() => setSelectedCourseId(null)}
+                >
+                  ✕
+                </Button>
+              </Flex>
+
+              {/* Videos Slider */}
+              <Flex overflowX="auto" gap={4} pb={2}>
+                {Array.from({ length: 4 }).map((_, idx) => (
+                  <Box key={idx} minW="320px" flex="0 0 auto">
+                    <AspectRatio ratio={16 / 9} w="full">
+                      <iframe
+                        src="https://www.youtube.com/embed/o8nVBW45gKY"
+                        title={`Video ${idx + 1}`}
+                        allowFullScreen
+                        style={{ borderRadius: '10px' }}
+                      />
+                    </AspectRatio>
+                  </Box>
+                ))}
+              </Flex>
+            </Box>
+          </Box>
+        </Portal>
+      )}
+
+
     </Box>
   )
 }
