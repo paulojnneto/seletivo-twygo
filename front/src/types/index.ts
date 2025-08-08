@@ -27,12 +27,13 @@ export interface CourseTableProps {
   courses: Course[]
   onPlayVideos: (courseId: string) => void
   onEdit: (courseId: string) => void
+  onDelete: (id: string) => void
 }
 
 export interface CourseVideosModalProps {
   isOpen: boolean
   onClose: () => void
-  videos: string[]
+  videos: Video[]
 }
 
 export type Video = {

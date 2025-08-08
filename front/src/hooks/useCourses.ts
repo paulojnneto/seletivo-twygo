@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { getCourses, createCourse, updateCourse } from '@/services/courseService'
+import { getCourses, createCourse, updateCourse, deleteCourse } from '@/services/courseService'
 import type { Course } from '@/types'
 
 export function useCourses() {
@@ -39,11 +39,24 @@ export function useCourses() {
     }
   }
 
+  const deleteCourseHandler = async (id: string) => {
+    try {
+      await deleteCourse(id)
+      await fetchCourses()
+    } catch (err) {
+      setError('Error deleting course')
+      console.error(err)
+      throw err
+    }
+  }
+
+
   return {
     courses,
     loading,
     error,
     fetchCourses,
-    saveCourse
+    saveCourse,
+    deleteCourseHandler
   }
 }

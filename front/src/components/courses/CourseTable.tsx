@@ -3,11 +3,12 @@ import {
   Box,
   Button,
   Table,
-  Icon
+  Icon,
+  Flex
 } from '@chakra-ui/react'
 import { FaPlay } from 'react-icons/fa'
 
-export function CourseTable({ courses, onPlayVideos, onEdit }: CourseTableProps) {
+export function CourseTable({ courses, onPlayVideos, onEdit, onDelete }: CourseTableProps) {
   return (
     <Box overflowX="auto">
       <Box overflow="hidden" border="2px solid black" borderRadius="lg" minW="700px">
@@ -42,9 +43,14 @@ export function CourseTable({ courses, onPlayVideos, onEdit }: CourseTableProps)
                   </Button>
                 </Table.Cell>
                 <Table.Cell bg="yellow.100" color="black">
-                  <Button size="xs" variant="outline" {...buttonStyle} onClick={() => onEdit(course.id ?? '')}>
-                    Edit
-                  </Button>
+                  <Flex gap={2}>
+                    <Button size="xs" variant="outline" {...buttonStyle} onClick={() => onEdit(course.id ?? '')}>
+                      Edit
+                    </Button>
+                    <Button size="xs" variant="outline" {...buttonRedStyle} onClick={() => onDelete(course.id ?? '')}>
+                      Delete
+                    </Button>
+                  </Flex>
                 </Table.Cell>
               </Table.Row>
             ))}
@@ -61,6 +67,16 @@ const buttonStyle = {
   border: "2px solid",
   borderColor: "purple",
   _hover: { borderColor: "purple", shadow: "sm" },
+  fontWeight: "bold",
+  px: 3
+}
+
+const buttonRedStyle = {
+  bg: "white",
+  color: "red",
+  border: "2px solid",
+  borderColor: "red",
+  _hover: { borderColor: "red", shadow: "sm" },
   fontWeight: "bold",
   px: 3
 }

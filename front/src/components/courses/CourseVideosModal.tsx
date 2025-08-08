@@ -1,4 +1,5 @@
 import type { CourseVideosModalProps } from '@/types'
+import { getTotalSizeInMB } from '@/utils'
 import {
   Box,
   Text,
@@ -10,6 +11,10 @@ import {
 
 export function CourseVideosModal({ isOpen, onClose, videos }: CourseVideosModalProps) {
   if (!isOpen) return null
+
+  const videoUrls = videos?.length
+    ? videos.map((v) => v.path)
+    : []
 
   return (
     <Portal>
@@ -33,7 +38,7 @@ export function CourseVideosModal({ isOpen, onClose, videos }: CourseVideosModal
           </Flex>
 
           <Flex overflowX="auto" gap={4} pb={2}>
-            {videos.map((url, idx) => (
+            {videoUrls.map((url, idx) => (
               <Box key={idx} minW="320px" flex="0 0 auto">
                 <AspectRatio ratio={16 / 9} w="full">
                   <video key={url} src={`http://localhost:4000${url}`} controls width="100%" />
@@ -41,7 +46,11 @@ export function CourseVideosModal({ isOpen, onClose, videos }: CourseVideosModal
               </Box>
             ))}
           </Flex>
-        </Box>
+          <Flex mt={4} justify="space-between" align="center">
+            <Text fontSize="sm" color="gray.600">
+              Total size: {getTotalSizeInMB(videos)} MB
+            </Text>
+          </Flex>        </Box>
       </Box>
     </Portal>
   )

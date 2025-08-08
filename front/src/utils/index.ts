@@ -12,3 +12,8 @@ export function parseVideoPaths(input: string): Video[] {
       size: 0
     }))
 }
+
+export const getTotalSizeInMB = (videos: { size: number }[]) => {
+  const totalBytes = videos.reduce((sum, v) => sum + v.size, 0)
+  return (totalBytes / 1024 / 1024).toFixed(2) //The video size is on bytes, so I need to calculate
+}

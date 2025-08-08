@@ -13,7 +13,7 @@ import { CourseVideosModal } from '@/components/courses/CourseVideosModal'
 
 export default function CourseListView() {
   const navigate = useNavigate()
-  const { courses, loading, fetchCourses } = useCourses()
+  const { courses, loading, fetchCourses, deleteCourseHandler } = useCourses()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null)
 
@@ -35,10 +35,17 @@ export default function CourseListView() {
     setSelectedCourseId(null)
   }
 
+  const handleDelete = async (courseId: string) => {
+    const confirmed = window.confirm("Are you sure you want to delete this course?")
+    if (confirmed) {
+      await deleteCourseHandler(courseId)
+    }
+  }
+
   const selectedCourse = courses.find(c => c.id === selectedCourseId)
 
   const videoUrls = selectedCourse?.videos?.length
-    ? selectedCourse.videos.map((v) => v.path)
+    ? selectedCourse.videos
     : []
 
   if (loading) return <Spinner size="xl" />
@@ -55,7 +62,7 @@ export default function CourseListView() {
       >
         <Box
           w="full"
-          maxW={{ base: '90%', md: '600px' }}
+          maxW={{ base: '90%', sm: "600px", md: '960px', lg: '960px' }}
           p={{ base: 4, md: 8 }}
           bg="white"
           borderRadius="md"
@@ -71,6 +78,7 @@ export default function CourseListView() {
             courses={courses}
             onPlayVideos={handlePlayVideos}
             onEdit={handleEdit}
+            onDelete={handleDelete}
           />
 
           <Flex justify="flex-end" mt={8}>
