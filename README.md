@@ -1,4 +1,4 @@
-# 🎓 Twygo Courses - Training Platform
+# 🎓 Threewygo Courses - Training Platform
 
 This is a course platform project focused on backend (Node.js + Express + Prisma) and frontend (Vite + React + Chakra UI) integration, using PostgreSQL as the database and Docker for orchestration.
 
